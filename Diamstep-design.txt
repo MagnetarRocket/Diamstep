@@ -1,0 +1,152 @@
+Diamstep is a NeXTSTEP/OPENSTEP/WindowMaker-like wayland compositor, meant for use with gnuStep.
+
+A few options are carried over from WindowMaker, but aside from that, it's no-frills and does not use typical composting effects (gradients however are exempt). Diamstep is designed to not use much ram as possible without regard to how insane it would take it to be low.
+
+Diamstep is also designed for very small screen resolutions, target minimal should be the dreamcast's; Diamstep is also designed for low performance systems like the dreamcast mentioned previously (Diamstep should also be able to run on 32-bit systems, an example would be the iMac G3, Xbox360, PS3, or even the wii) and low-color displays.
+
+Diamstep by default is compiled with GNUstep Bindings and support (Some extra funconalty is dependent upon gnustep), however Diamstep can be compiled without such support if needed or desired
+
+Diamstep is under the MIT license. It aims to be the MWM of the wayland world- small, fewer configuration options then FVWM or even TWM, and not needing else aside from what is provided by the default wayland installation (if compiled without GNUStep support).
+
+Dialog prompts are given by GNUStep, if not compiled with such support, Diamstep is instant like TWM.
+
+As with WindowMaker (And also afterstep), Diamstep dumps it's config files in the user's GNUStep directory, however Diamstep can be configured to not put such files there if needed.
+
+The simple configuration file that Diamstep uses for visual appearance, user provided keyboard functions, and menu definitions is "Diam.config", "Diam.config" in the user directory always takes priority over the default version of that file.
+-=-
+Menu default items:
+
+"New window"f.act[Suckless terminal]
+
+(Distro menu)f.menu[dynamically adjusted menu file, can be exclude if there is no such file on the OS used]
+
+Separator
+
+"About…" f.info
+Diamstep f.menu[Diamstep-internal-options0] -Reset Exit
+Session f.menu[Diamstep-internal-options1] -who whoami logout
+System f.menu[Diamstep-internal-options2] -Sleep Restart Shutdown
+-=-
+^Options (Visual):
+
+RetroResize [bool]: Enables the use of the early nextstep window titlebar resize button, default is false.
+
+UseBettaStyle [bool]: If enabled- use the OPENSTEP 4.0 beta titlebar button arrangement. False is the classic NeXTSTEP titlebar button arrangement; default is false.
+The arrangement of the buttons (with retroResize enabled) is:
+
+*Disabled is-
+Resize Iconify Title Close
+
+*Enabled is-
+Resize AppIcon Title Iconify Close
+
+Default is true.
+
+/*ButtonStyle [String]: A point of deviance from WindowMaker i think, options are- 
+
+*Classic: The old NeXTSTEP-style buttons, Available only with gnustep support enabled
+
+*Betta: OPENSTEP 4.0 beta-style buttons, the default button style.
+
+*Flat: Borderless buttons as per the fashion of today.
+
+Default is Betta.*/
+
+UseFlat [bool]: Do not add bezels around the window titlebar buttons if true, false is the OPENSTEP-beta/WindowMaker style of button. Default is false.
+
+ResizeSize [unsigned int]: Hight of the resize handle in int, default is 4. Not avaible if RetroResize is on.
+
+TitleJustify [String]: String to state where the title should be positioned. Same options as WindowMaker. Default is "right"
+
+MenuWinTitleFont [String]:Same options as WindowMaker, Unlike WindowMaker, all Menubar and title fonts are shared.
+
+MenuFont [String]: Same as WindowMaker, can be overridden by gnustep
+
+IconTitleFont [String]: Same as WindowMaker
+
+-Color theming:
+Mostly the same as windowmaker, However gradients cannot not have more then two colors. Images can also be used in place of color.
+
+Menus also mostly have the same sythax as WindowMaker, however unless on an area not claimed by GNUStep, Diamstep provides it's own menu menu. By default GNUStep overrides the menu, a good example is the nextStep menu, the title is covered in by Diamstep, but the contents the the menus is dicticted by GNUStep apps and theme.
+
+Widget options are excluded as Diamstep does not have them
+
+-=-
+Shared:
+
+MenuHue=Hover box background-SquishBox background (Selection is simply the inverse)
+
+activeTitleHue=GNUStep menu titlebar
+
+parentTitleHue
+
+InactiveHue=Resize handle
+
+ActiveText=Window titlebar button icons-Parent window title text hue
+
+InactiveText=Inactive window titlebar icons-Inverted select actions
+
+MenuTextHue=Hoverbox text-Separator hue-SquishBox selection border-SquishBox arrows
+
+IconBackHue
+
+(Shadow bezel colors are automatic)
+-=-
+
+^Options(Non-Visual):
+
+Keyboard, icon, and menu syntax are about the same as windowMaker's own.
+
+Icons are in a semi-unique layout. the system decides how the columns go, but 0 is always the collum under the user/system icon. the layout is along the lines of:
+"
+0{
+Pencil.app (use icon)
+}
+
+1{
+Firefox (/pictures/Firefox.xpm) 
+}
+"
+And Diamstep stores such files under ~/user-data or if possible, also in the GNUStep user directory with the name of "crys_docked.config"
+
+^Options(Specific only to Diamstep)
+
+UseNativeAppTheme [bool]: Only aviable with GNUStep apps (if compiled in), true is to not draw any borders, but use the theme that an GNUStep app itself uses, false is not to do such a thing. Default is false.
+
+IconPrestation [String]: Present active apps as:
+
+*SquishCube: Unlike WindowMaker or even NeXTSTEP, a iconbox-like feature is included under the name of "SquishCube" (SquishRectangle in mockups); if enabled shows all undocked applications in it (Influenced by MWM’s “IconBox”).Apps can be dragged from it to the dock as normally one expects.
+Shrinking the SquishCube will give an unmovable icon (and thus undockable icon), clicking on the icon restores the squish rectangle to its normal state.
+Also when there are more icons then can be fitted onto one row, arrows will appear above the icon (rows) to indicate that there are more rows able to be seen, rows can also be navigated via arrow keys.
+
+*Classic: Much like the NeXTSTEP one (or the amount of shells and window-managers inspired by it), Can be dragged down alongside the dock.
+
+*None: Ensure that you have a 3-rd party panel/taskbar/window-lister or window menu mouse function ready. For you will see none.
+
+Default is Classic.
+
+FloatMenu [bool]: Dictates if the main WM window can be summoned anywhere (true) or be fixed to the upper left corner (false), default is false.
+
+DockRowLeft [bool]: If true, put the docked and system icons to the left (and show shrunk icons from the right to the left, and also the ShrunkCube if it's enabled), false is akin to NeXT. Default is false.
+
+SystemIconAct [string]: Settable action on what will happen if the system/user icon is clicked on, default if GNUStep support is compiled in is to open up GWorkspace(or open a browser window if its active), default is such support is not compiled in is to open up the specified default terminal app.
+
+NoDock [bool]: Show the dock and system icons if true, false does not show them. default is true.
+
+ExcludeTitle[bool]:
+
+ExcludeIconify[bool]:
+
+ExcludeClose[bool]:
+
+ExcludeResize[bool]:
+
+UseSysIcon[bool]: If true, use the distro provided icon, false is the user icon. Default is false.
+
+ShadowWidth [unsigned int]: Shadow size in int, if set to "0"- no shadow = flat look; default is "2".
+
+^Compile-time options:
+
+UseDump: Show the black-hole/recycler icon, depending upon how Diamstep is compiled- it can be a generic shortcut to the special trash directory or be overridden by GNUStep's workspace app. Default if GNUStep support is compiled in is true, the default if Diamstep was compiled without GNUStep support is false.
+
+UseGS: Use GNUStep bindings and support, requires GNUStep.
